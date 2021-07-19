@@ -1,7 +1,5 @@
 # Apollo入门
 
-![logo-simple](C:\Users\admin\Pictures\logo-simple.png)
-
 公司项目使用了Apollo配置中心，找了个入门视频学习一下。只是一些基本的操作，架构有待深入研究。内容包括：
 
 1. Apollo 的工作流程

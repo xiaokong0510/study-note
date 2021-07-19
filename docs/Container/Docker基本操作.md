@@ -9,7 +9,7 @@ Docker基本知识，包括：
 - docker 部署Tomcat、Nginx 、MySQL、Redis
 
 
-# 1 Docker简介
+# 1. Docker简介
 
 > 虚拟化
 
