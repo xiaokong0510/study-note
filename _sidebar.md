@@ -1,17 +1,11 @@
-* [备战面试](./docs/a-1备战面试.md)
-  
-* Java
+* SSM框架
 
-  * [Java基础](./docs/b-1面试题总结-Java基础.md)
-  * [Java集合](./docs/b-2Java集合.md)
-  * [Java多线程](./docs/b-3Java多线程.md)
-  * [jvm](./docs/b-4jvm.md)
+  * MyBatis
+    * [原生JDBC](./docs/SSM/MyBatis笔记(一)--原生JDBC.md)
+    * [ 核心配置文件、sql映射文件](./docs/SSM/MyBatis笔记(二)--核心配置文件、sql映射文件.md)
+    * [多对一、一对多查询](./docs/SSM/MyBatis笔记(三)--多对一、一对多查询.md)
+    * [动态SQL和缓存](./docs/SSM/Mybatis笔记(四)--动态SQL和缓存.md)
+  * Spring
+    * [IOC控制反转、DI依赖注入](./docs/SSM/Spring笔记(一)----IOC控制反转、DI依赖注入.md)
+    * [动态代理、AOP](./docs/SSM/Spring笔记(二)----动态代理、AOP.md)
 
-* 计算机基础
-
-  * [计算机网络](./docs/c-1计算机网络.md)
-  * [数据结构](./docs/c-2数据结构.md)
-  * [算法](./docs/c-3算法.md)
-  * [操作系统](./docs/c-4操作系统.md)
-
-  
