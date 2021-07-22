@@ -1,4 +1,4 @@
-## MyBatis笔记(一)--原生JDBC
+# MyBatis笔记(一)--原生JDBC
 
 MyBatis学习笔记(一)， 内容包括：
 
