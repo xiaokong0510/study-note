@@ -1,4 +1,7 @@
 * Java 基础
+* 数据库
+    * MySQL 
+        * [一条SQL查询语句的执行过程](./docs/MySQL/MySQL基础01：一条SQL查询语句的执行过程.md)
 * SSM 框架
     * MyBatis
       * [原生JDBC](./docs/SSM/MyBatis笔记(一)--原生JDBC.md)
