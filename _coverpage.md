@@ -3,9 +3,9 @@
 </p>
 <h1 align="center">Java学习笔记</h1>
 
-[Blog](http://www.kongxiao.top/)
+[Blog](https://www.kongxiao.top/)
 [GitHub](https://github.com/xiaokong0510)
-[开始阅读](#headline)
+[开始阅读](README.md)
 
 
 
