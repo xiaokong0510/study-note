@@ -1,4 +1,8 @@
-# SpringBoot 接口参数校验
+# JSR-303 接口参数校验
+
+JSR 是 Java Specification Requests 的缩写，意思是Java 规范提案。
+
+JSR-303 是JAVA EE 6 中的一项子规范，叫做Bean Validation，Hibernate Validator 是 Bean Validation 的参考实现
 
 ## 1 问题引出
 
@@ -38,7 +42,7 @@ public CommonResult addUser(UserInfo userInfo ) {
 </dependency>
 ```
 
-在SpringBoot 2.3.x 版本以后将这个依赖移除了，所以 2.3 以后的版本需要手动添加，2.3 以下的版本则不需要自己添加。
+在Spring Boot 2.1版本中，该依然其实已经包含在了spring-boot-starter-web依赖中，并不需要额外引入
 
 ## 2 几个案例
 
@@ -74,10 +78,10 @@ public class CommonResult {
 ### 2.1 Query 参数缺失
 
  ```java
-  @GetMapping("/test")
-  public CommonResult test(@RequestParam("age") Integer age) {
-      return CommonResult.success(null, "操作成功！");
-  }
+ @GetMapping("/test")
+ public CommonResult test(@RequestParam("age") Integer age) {
+     return CommonResult.success(null, "操作成功！");
+ }
  ```
 
 对于如上接口，请求参数添加注解：`@RequestParam("age")`
@@ -452,5 +456,4 @@ public class HaveNoBlankValidator implements ConstraintValidator<HaveNoBlank, St
 - 在请求参数实体类中的成员变量上增加 **校验规则注解**
 - 在控制器方法的请求参数中加上`@Valid` 或者`@Validated`  注解
 - 如果用到分组校验、嵌套属性校验时，需要使用`@Validated`
-
 
