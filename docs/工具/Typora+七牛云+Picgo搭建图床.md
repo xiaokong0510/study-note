@@ -1,18 +1,23 @@
-# 使用Typora+PicGo+七牛云搭建图床
+# 使用 Typora+PicGo+七牛云搭建图床
 
-初学Java时，接触了Typora这个MarkDown文本编辑神器，使用起来非常方便。
+初学 Java 时，接触了 Typora 这个 MarkDown 文本编辑神器，使用起来非常方便。
 
-但是对于图片的处理稍显不足，之前一直是保存在本地，使用本地连接引用图片。上传md文档时还得同时上传图片源文件，不是很方便。
+但是对于图片的处理稍显不足，之前一直是保存在本地，使用本地连接引用图片。上传 md 文档时还得同时上传图片源文件，不是很方便。
 
-网上发现Typora 新版支持图床，研究了一下，可以更方便插入图片了。记录一下过程
+网上发现 Typora 0.9.86 以上支持图床，研究了一下，可以更方便插入图片了。记录一下过程
 
+需要：
 
+1. 一个备案的域名；
+2. 一个七牛云账号；
+3. PicGo;
+4. Typora
 
 ## 1 创建七牛云的账号并创建新的空间
 
 官网：https://www.qiniu.com/
 
-1. 创建七牛云账号，控制台--对象存储，立即添加，新建存储空间
+1. 创建七牛云账号，**控制台** -- **对象存储**，立即添加，**新建存储空间**：
 
 ![image-20210203104101614](http://image.kongxiao.top/image-20210203104101614.png)
 
@@ -44,11 +49,11 @@
 
 我的域名是在阿里云买的，
 
-因此登录阿里云控制台，域名，解析，添加记录
+因此登录阿里云控制台，**域名，解析，添加记录**
 
 主机记录就是上面自己设置的二级域名
 
-记录值就是上面复制的 CNAME码
+记录值就是上面复制的 CNAME 码
 
 ![image-20210719113255381](http://image.kongxiao.top/20210719113256.png)
 
@@ -89,9 +94,9 @@
 
 ## 4 Typora的设置
 
-文件--偏好设置。
+**文件 -- 偏好设置**。
 
-选择PicGo的路径，以及插入图片时的操作即可。可以点击验证是否配置正确。
+选择 PicGo 的路径，以及插入图片时的操作即可。可以点击验证是否配置正确。
 
 ![](http://image.kongxiao.top/20210719112830.png)
 
@@ -100,3 +105,30 @@
 以后就可以愉快的插入图片啦！
 
 ![image-20210719112951069](http://image.kongxiao.top/20210719112952.png)
+
+## 5 利用 Github 搭建免费图床（可选）
+
+如果没有自己的域名，也可以用 Github 也是可以搭建免费图床的。步骤如下：
+
+1. 在 Github  上新建一个仓库，用作图床仓库，比如 blog-img；
+2. 在 Github 创建一个 token，依次打开 `Settings -> Developer settings -> Personal access tokens`，最后点击 `generate new token`
+
+<img src="C:/Users/kongx/AppData/Roaming/Typora/typora-user-images/image-20220428214625867.png" alt="image-20220428214625867" style="zoom: 80%;" />
+
+<img src="C:/Users/kongx/AppData/Roaming/Typora/typora-user-images/image-20220428214649277.png" alt="image-20220428214649277" style="zoom:80%;" />
+
+> 注意：`token` 生成后只会显示一次，所以最好把它复制下保存到备忘录，否则忘记后下次有需要新建
+
+![image-20220428214713133](https://cdn.jsdelivr.net/gh/xiaokong0510/blog-img/20220428214714.png)
+
+3. 配置 PicGo，依次打开 **图床设置 -> Github 图**床；填写相关信息即可，有需要的话可以设为默认图床；
+
+   注意现在的分支名默认都是 `main` 了。
+
+   <img src="C:/Users/kongx/AppData/Roaming/Typora/typora-user-images/image-20220428214949331.png" alt="image-20220428214949331" style="zoom:80%;" />
+
+4. **加速访问**。可以用 [jsDelivr](https://links.jianshu.com/go?to=https%3A%2F%2Fwww.jsdelivr.com%2F) 进行免费加速，只需配置中添加如下自定义域名即可；
+
+   比如我的就是 `https://cdn.jsdelivr.net/gh/xiaokong0510/blog-img`
+
+后面 typora 设置就和之前的一样啦！
