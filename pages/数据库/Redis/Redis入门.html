@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Redis 五大数据结构及常用指令 | xiao blog</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="/study-note/logo.png">
+    <meta name="description" content="半路出家的 Java 学习之路">
+    
+    <link rel="preload" href="/study-note/assets/css/0.styles.18b2ff20.css" as="style"><link rel="preload" href="/study-note/assets/js/app.6b876f16.js" as="script"><link rel="preload" href="/study-note/assets/js/2.f72d9393.js" as="script"><link rel="preload" href="/study-note/assets/js/19.6330142d.js" as="script"><link rel="prefetch" href="/study-note/assets/js/10.d408d918.js"><link rel="prefetch" href="/study-note/assets/js/11.24cad54d.js"><link rel="prefetch" href="/study-note/assets/js/12.c7edb43f.js"><link rel="prefetch" href="/study-note/assets/js/13.05379442.js"><link rel="prefetch" href="/study-note/assets/js/14.4de91857.js"><link rel="prefetch" href="/study-note/assets/js/15.76558b20.js"><link rel="prefetch" href="/study-note/assets/js/16.b5b26512.js"><link rel="prefetch" href="/study-note/assets/js/17.2fdfd012.js"><link rel="prefetch" href="/study-note/assets/js/18.b191833e.js"><link rel="prefetch" href="/study-note/assets/js/20.ce774177.js"><link rel="prefetch" href="/study-note/assets/js/21.623f24cd.js"><link rel="prefetch" href="/study-note/assets/js/22.fc25f660.js"><link rel="prefetch" href="/study-note/assets/js/23.1a55eb92.js"><link rel="prefetch" href="/study-note/assets/js/24.d319381b.js"><link rel="prefetch" href="/study-note/assets/js/25.02e8fe32.js"><link rel="prefetch" href="/study-note/assets/js/26.48a5ce04.js"><link rel="prefetch" href="/study-note/assets/js/27.f5518525.js"><link rel="prefetch" href="/study-note/assets/js/28.efb1b1d5.js"><link rel="prefetch" href="/study-note/assets/js/29.0867237c.js"><link rel="prefetch" href="/study-note/assets/js/3.a5aee981.js"><link rel="prefetch" href="/study-note/assets/js/30.c4d98526.js"><link rel="prefetch" href="/study-note/assets/js/31.2d852896.js"><link rel="prefetch" href="/study-note/assets/js/32.7a0b6574.js"><link rel="prefetch" href="/study-note/assets/js/33.458ee9d2.js"><link rel="prefetch" href="/study-note/assets/js/34.0d54bd77.js"><link rel="prefetch" href="/study-note/assets/js/35.003b16a0.js"><link rel="prefetch" href="/study-note/assets/js/36.e06e7163.js"><link rel="prefetch" href="/study-note/assets/js/37.af1fc340.js"><link rel="prefetch" href="/study-note/assets/js/38.4c77e9d1.js"><link rel="prefetch" href="/study-note/assets/js/39.db0ac20a.js"><link rel="prefetch" href="/study-note/assets/js/4.0cf0b3b5.js"><link rel="prefetch" href="/study-note/assets/js/40.7f7eb429.js"><link rel="prefetch" href="/study-note/assets/js/41.2ac36ee9.js"><link rel="prefetch" href="/study-note/assets/js/42.8ba55a31.js"><link rel="prefetch" href="/study-note/assets/js/43.734b8ee9.js"><link rel="prefetch" href="/study-note/assets/js/44.46c13f90.js"><link rel="prefetch" href="/study-note/assets/js/45.e5f681b1.js"><link rel="prefetch" href="/study-note/assets/js/46.6e7b63bb.js"><link rel="prefetch" href="/study-note/assets/js/5.0559d5c3.js"><link rel="prefetch" href="/study-note/assets/js/6.45c573e9.js"><link rel="prefetch" href="/study-note/assets/js/7.6d5512ae.js"><link rel="prefetch" href="/study-note/assets/js/8.eeea1fd5.js"><link rel="prefetch" href="/study-note/assets/js/9.af70dea1.js">
+    <link rel="stylesheet" href="/study-note/assets/css/0.styles.18b2ff20.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/study-note/" class="home-link router-link-active"><img src="/study-note/logo.png" alt="xiao blog" class="logo"> <span class="site-name can-hide">xiao blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/study-note/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="计算机基础" class="dropdown-title"><span class="title">计算机基础</span> <span class="arrow down"></span></button> <button type="button" aria-label="计算机基础" class="mobile-dropdown-title"><span class="title">计算机基础</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/MySQL.html" class="nav-link">
+  计算机网络
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  操作系统
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据结构与算法" class="dropdown-title"><span class="title">数据结构与算法</span> <span class="arrow down"></span></button> <button type="button" aria-label="数据结构与算法" class="mobile-dropdown-title"><span class="title">数据结构与算法</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/MySQL.html" class="nav-link">
+  数据结构
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  算法
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java" class="dropdown-title"><span class="title">Java</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java" class="mobile-dropdown-title"><span class="title">Java</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/MySQL.html" class="nav-link">
+  基础
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  集合
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  并发
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  JVM
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><span class="title">数据库</span> <span class="arrow down"></span></button> <button type="button" aria-label="数据库" class="mobile-dropdown-title"><span class="title">数据库</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/MySQL.html" class="nav-link">
+  MySQL
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  Redis
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="常用框架" class="dropdown-title"><span class="title">常用框架</span> <span class="arrow down"></span></button> <button type="button" aria-label="常用框架" class="mobile-dropdown-title"><span class="title">常用框架</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/MySQL.html" class="nav-link">
+  MyBatis
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  Spring
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  SpringMVC
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  SpringBoot
+</a></li></ul></div></div><div class="nav-item"><a href="/study-note/MySQL.html" class="nav-link">
+  中间件
+</a></div><div class="nav-item"><a href="/study-note/MySQL.html" class="nav-link">
+  工具
+</a></div><div class="nav-item"><a href="https://github.com/xiaokong0510" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/study-note/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="计算机基础" class="dropdown-title"><span class="title">计算机基础</span> <span class="arrow down"></span></button> <button type="button" aria-label="计算机基础" class="mobile-dropdown-title"><span class="title">计算机基础</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/MySQL.html" class="nav-link">
+  计算机网络
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  操作系统
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据结构与算法" class="dropdown-title"><span class="title">数据结构与算法</span> <span class="arrow down"></span></button> <button type="button" aria-label="数据结构与算法" class="mobile-dropdown-title"><span class="title">数据结构与算法</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/MySQL.html" class="nav-link">
+  数据结构
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  算法
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java" class="dropdown-title"><span class="title">Java</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java" class="mobile-dropdown-title"><span class="title">Java</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/MySQL.html" class="nav-link">
+  基础
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  集合
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  并发
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  JVM
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><span class="title">数据库</span> <span class="arrow down"></span></button> <button type="button" aria-label="数据库" class="mobile-dropdown-title"><span class="title">数据库</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/MySQL.html" class="nav-link">
+  MySQL
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  Redis
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="常用框架" class="dropdown-title"><span class="title">常用框架</span> <span class="arrow down"></span></button> <button type="button" aria-label="常用框架" class="mobile-dropdown-title"><span class="title">常用框架</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/MySQL.html" class="nav-link">
+  MyBatis
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  Spring
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  SpringMVC
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/Redis.html" class="nav-link">
+  SpringBoot
+</a></li></ul></div></div><div class="nav-item"><a href="/study-note/MySQL.html" class="nav-link">
+  中间件
+</a></div><div class="nav-item"><a href="/study-note/MySQL.html" class="nav-link">
+  工具
+</a></div><div class="nav-item"><a href="https://github.com/xiaokong0510" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <!----> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="redis-五大数据结构及常用指令"><a href="#redis-五大数据结构及常用指令" class="header-anchor">#</a> Redis 五大数据结构及常用指令</h1> <p>官网：https://redis.io/        http://www.redis.cn/</p> <p>Redis 命令参考：  http://doc.redisfans.com/ ， http://www.redis.cn/commands.html</p> <p><em>Redis</em>（Remote Dictionary Server )，即远程字典服务，是一个使用 C 语言开发的数据库。</p> <p><strong>Redis 的数据是存在内存中的</strong></p> <p><strong>Redis 除了做缓存之外，也经常用来做分布式锁，甚至是消息队列。</strong></p> <p><strong>Redis 提供了多种数据类型来支持不同的业务场景。Redis 还支持事务 、持久化、Lua 脚本、多种集群方案。</strong></p> <h2 id="常见数据结构"><a href="#常见数据结构" class="header-anchor">#</a> 常见数据结构</h2> <ul><li>string</li> <li>list</li> <li>hash</li> <li>set</li> <li>sorted set</li></ul> <h2 id="redis-命令"><a href="#redis-命令" class="header-anchor">#</a> Redis 命令</h2> <h3 id="key-键"><a href="#key-键" class="header-anchor">#</a> Key（键）</h3> <ol><li><strong>检查/ 删除 /移动 key：</strong></li></ol> <p><code>EXISTS key</code>   ：若 key 存在，返回 1 ，否则返回 0 ；
+<code>DEL key [key ...]</code>  ： 删除给定的一个或多个 key，不存在的 key 会被忽略，返回 被删除 key 的数量；
+<code>MOVE key db</code>  ：移动到给定的数据库 db 当中，成功返回 1 ，失败则返回 0 。如果源数据库和目标数据库有相同名字的给定 key ，或者 key 不存在于当前数据库，那么 MOVE 没有任何效果
+<code>TYPE key</code>  ： 返回 key 所储存的值的类型
+<code>RENAME key newkey</code>  ： 将 key 改名为 newkey；当  key 不存在时，返回一个错误；当 newkey 已经存在时， RENAME 命令将覆盖旧值</p> <ol start="2"><li><strong>生存时间：</strong></li></ol> <p><code>TTL key</code>  ：  TTL, time to live，以秒为单位
+<code>PTTL key</code> ：以毫秒为单位</p> <ul><li>当 key 不存在时，返回 -2 ；</li> <li>当 key 存在但没有设置剩余生存时间时，返回 -1 ；</li> <li>否则，以秒为单位，返回 key 的剩余生存时间</li></ul> <p><code>EXPIRE key seconds</code>  ： 设置生存时间，单位为 s，设置成功返回 1，
+<code>PEXPIRE key milliseconds</code>  ： 设置生存时间，单位为 ms</p> <p><code>EXPIREAT key timestamp</code>  ： 设置生存时间，参数为 UNIX 时间戳
+<code>PEXPIREAT key milliseconds-timestamp</code>  ： 设置生存时间，以毫秒为单位的 UNIX 时间戳</p> <p><code>PERSIST key timestamp</code>  ： 移除给定 key 的生存时间，即设置为永久；当生存时间移除成功时，返回 1 ；如果 key 不存在或 key 没有设置生存时间，返回 0</p> <ol start="3"><li><strong>查找/扫描：</strong></li></ol> <p><code>KEYS pattern</code>  ：查找所有符合给定模式 pattern 的 key</p> <ul><li>KEYS * 匹配数据库中所有 key 。</li> <li>KEYS h?llo 匹配 hello ， hallo 和 hxllo 等。</li> <li>KEYS h*llo 匹配 hllo 和 heeeeello 等。</li> <li>KEYS h[ae]llo 匹配 hello 和 hallo ，但不匹配 hillo</li></ul> <p><code>SCAN cursor [MATCH pattern] [COUNT count]</code>  ：查找所有符合给定模式 pattern 的 key</p> <h3 id="string-字符串"><a href="#string-字符串" class="header-anchor">#</a> String（字符串）</h3> <ol><li><strong>基本操作：</strong></li></ol> <p><code>SET key value [EX seconds] [PX milliseconds] [NX|XX]</code>  ： 设置 key-value 类型的值；key 已经存在则覆写旧值，无视类型，这个键原有的 TTL 也将被清除。支持以下参数</p> <ul><li>EX second ：设置键的过期时间为 second 秒。 SET key value EX second 效果等同于 SETEX key second value</li> <li>PX millisecond ：设置键的过期时间为 millisecond 毫秒。 SET key value PX millisecond 效果等同于 PSETEX key millisecond value</li> <li>NX ：只在键不存在时，才对键进行设置操作。 SET key value NX 效果等同于 SETNX key value 。</li> <li>XX ：只在键已经存在时，才对键进行设置操作。</li></ul> <p><code>GET key</code>  ： 根据 key 获得对于的 value，如果 key 不存在那么返回特殊值 nil</p> <p><code>STRLEN key</code>  ： 返回 key 所储存的字符串值的长度
+<code>SETRANGE key offset value</code>  ： 从偏移量 offset 开始设置 key 所保存的 value，返回被 SETRANGE 修改之后字符串的长度；不存在的 key 当作空白字符串处理，空白处被&quot;\x00&quot;填充</p> <p><code>GETRANGE key start end</code>  ：返回截取后的字符串， 包括 start 和 end 在内；负数偏移量表示从字符串最后开始计数，-1 表示最后一个字符， -2 表示倒数第二个</p> <p><code>SETEX key seconds value</code>  ： 将值 value 关联到 key ，并将 key 的生存时间设为 seconds (以秒为单位)</p> <p><code>SETNX key value</code>  ：即 【SET if Not eXists】。 当且仅当 key 不存在时，将 key 的值设为 value ；若给定的 key 已经存在，则不做任何动作。设置成功，返回 1 ；设置失败，返回 0 。</p> <ol start="2"><li><strong>批量设置：</strong></li></ol> <p><code>MSET key value [key value ...]</code>  ： 同时设置一个或多个 key-value 对；是一个原子性(atomic)操作，所有给定 key 都会在同一时间内被设置
+<code>MGET key [key ...]</code>  ：返回所有(一个或多个)给定 key 的值。</p> <ol start="3"><li><strong>计数器：</strong></li></ol> <p><code>DECR key</code>  ： 将 key 中储存的数字值增一；如果 key 不存在，那么 key 的值会先被初始化为 0 ，然后再执行 INCR 操作
+<code>INCRBY key</code>  ： 将 key 所储存的值加上增量 increment 。
+<code>INCR key</code>  ： 将 key 中储存的数字值减一；如果 key 不存在，那么 key 的值会先被初始化为 0 ，然后再执行 DECR 操作
+<code>INCRBY key</code>  ： 将 key 所储存的值减去减量 decrement</p> <h3 id="list-列表"><a href="#list-列表" class="header-anchor">#</a> List（列表）</h3> <p><code>RPUSH key value [value ...]</code>  ： 右边插入；返回执行 RPUSH 操作后，表的长度
+<code>LPOP key</code>  ： 移除并返回列表 key 最左边的元素
+<code>LPUSH key value [value ...]</code>  ： 左边插入；返回执行 LRPUSH 操作后，表的长度
+<code>RPOP key</code>  ： 移除并返回列表 key 最右边的元素</p> <p><img src="https://image.kongxiao.top/20210922175322.png" alt="redis-list"></p> <p><code>LLEN key</code>  ： 返回列表 key 的长度，如果 key 不存在，则 key 被解释为一个空列表，返回 0，
+如果 key 不是列表类型，返回一个错误
+<code>LRANGE key start stop</code>  ： 返回列表 key 中指定区间内的元素，-1表示倒数第一
+<code>LINDEX key index</code>  ： 返回列表 key 中，下标为 index 的元素</p> <p><code>LINSERT key BEFORE|AFTER pivot value</code>  ： 将值 value 插入到列表 key 当中，位于值 pivot 之前或之后。</p> <ul><li><p>当 pivot 不存在于列表 key 时，不执行任何操作；</p></li> <li><p>当 key 不存在时， key 被视为空列表，不执行任何操作；</p></li> <li><p>如果 key 不是列表类型，返回一个错误；</p></li> <li><p>如果命令执行成功，返回插入操作完成之后，列表的长度；</p></li> <li><p>如果没有找到 pivot ，返回 -1 ；</p></li> <li><p>如果 key 不存在或为空列表，返回 0</p></li></ul> <p><code>LREM key count value</code>：根据参数 count 的值，移除列表中与参数 value 相等的元素。返回被移除元素的数量</p> <ul><li><p>count &gt; 0 : 从表头开始向表尾搜索，移除与 value 相等的元素，数量为 count ；</p></li> <li><p>count &lt; 0 : 从表尾开始向表头搜索，移除与 value 相等的元素，数量为 count 的绝对值；</p></li> <li><p>count = 0 : 移除表中所有与 value 相等的值</p></li></ul> <h3 id="hash-哈希表"><a href="#hash-哈希表" class="header-anchor">#</a> Hash（哈希表）</h3> <p><code>HSET key filed value [filed value ...]</code>：设置 key 中的域 field 的值设为 value
+<code>HGET key filed</code>：返回指定 key 中给定域 field 的值</p> <p><code>HLEN key</code>：返回指定 key 中域的数量</p> <p><code>HGETALL key</code>：返回指定key 所有的域和值</p> <p><code>HEXISTS key filed</code>：查看指定key，指定域 field 是否存在</p> <p><code>HDEL key filed[field ...]</code>：删除指定 key 中，一个或多个给定的 field</p> <p><code>HKEYS key</code>：返回指定key 中，所有的 field</p> <p><code>HVALS key</code>：返回指定key，所有的 field 的 value</p> <p><code>HSETNX key field value</code>：当且仅当域 field 不存在，将指定 key 中的域 field 的值设置为 value</p> <p><code>HINCRBY key field increment</code>：为指定 key 中的域 field 的值加上增量 increment</p> <h3 id="set-集合"><a href="#set-集合" class="header-anchor">#</a> SET （集合）</h3> <p><code>SADD key member [member ...]</code> ：添加元素</p> <p><code>SMEMBERS key</code>：查看所有元素
+<code>SISMEMBERS key member</code>：判断 member 元素是否是集合 key 的成员</p> <p><code>SCARD key</code>：查看元素个数</p> <p><code>SREM key member [member ...]</code>：移除集合 key 中的一个或多个 member 元素，不存在的 member 元素会被忽略</p> <p><code>SPOP key</code>：移除并返回集合中的一个随机元素</p> <p><code>SRANDMEMBER key [count]</code>：返回集合中的一个随机元素</p> <ul><li>如果 count 为正数，且小于集合基数，那么命令返回一个包含 count 个元素的数组，数组中的元素<strong>各不相同</strong>。如果 count 大于等于集合基数，那么返回整个集合</li> <li>如果 count 为负数，那么命令返回一个数组，数组中的元素<strong>可能会重复出现多次</strong>，而数组的长度为 count 的绝对值</li></ul> <p><code>SMOVE source destination member</code>：将 member 元素从 source 集合移动到 destination 集合</p> <p><strong>数学集合类：</strong></p> <p><code>SDIFF key [key ...]</code>：返回所有给定集合之间的差集
+<code>SINNER key [key ...]</code>：返回所有给定集合之间的交集
+<code>SUNION key [key ...]</code>：返回所有给定集合之间的并集</p> <p><code>SDIFFSTORE destination key [key ...]</code>：返回所有给定集合之间的差集，将结果保存到 destination 集合
+<code>SINNERSTORE destination key [key ...]</code>：返回所有给定集合之间的交集，将结果保存到 destination 集合
+<code>SUNIONSTORE destination key [key ...]</code>：返回所有给定集合之间的并集，将结果保存到 destination 集合</p> <h3 id="zset-sorted-set有序集合"><a href="#zset-sorted-set有序集合" class="header-anchor">#</a> ZSET（Sorted Set有序集合）</h3> <p>在 SET 基础上，加上一个 scroe 值</p> <p><code>ZADD key score member [[score member] [score member] ...]</code>：将一个或多个 member 元素及其 score 值加入到有序集 key 当中</p> <p><code>ZRANGE key start stop [WITHSCORES]</code>：返回有序集 key 中，指定区间内的成员，其中成员的位置按 score 值递增(从小到大)来排序</p> <p><code>ZREVRANGE key start stop [WITHSCORES]</code>：同上，逆序</p> <p><code>ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]</code>：返回有序集 key 中，所有 score 值介于 min 和 max 之间(包括等于 min 或 max )的成员。有序集成员按 score 值递增(从小到大)次序排列</p> <p><code>ZREVRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]</code>：同上，逆序</p> <p><code>ZSCORE key member</code>：返回有序集 key 中，成员 member 的 score 值</p> <p><code>ZRANK key member</code>：返回有序集 key 中成员 member 的排名</p> <p><code>ZCARD key</code>：查看元素个数</p> <p><code>ZCOUNT key min max</code>：返回有序集 key 中， score 值在 min 和 max 之间(默认包括 score 值等于 min 或 max )的成员的数量</p> <p><code>ZREM key member [member ...]</code>：移除有序集 key 中的一个或多个成员</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">7/30/2022, 11:29:32 PM</span></div></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/study-note/assets/js/app.6b876f16.js" defer></script><script src="/study-note/assets/js/2.f72d9393.js" defer></script><script src="/study-note/assets/js/19.6330142d.js" defer></script>
+  </body>
+</html>
