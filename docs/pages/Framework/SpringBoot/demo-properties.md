@@ -1,14 +1,3 @@
----
-title: demo-properties
-date: 2022-07-27 22:41:46
-permalink: /pages/dc8b99/
-categories:
-  - pages
-  - Framework
-  - SpringBoot
-tags:
-  - 
----
 # SpringBoot 配置文件
 SpringBoot 默认使用两种全局的配置文件，全局配置文件可以对一些默认配置进行修改。
 

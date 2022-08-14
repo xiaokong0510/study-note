@@ -1,14 +1,3 @@
----
-title: demo-jpa
-date: 2022-07-27 22:41:46
-permalink: /pages/5f9e31/
-categories:
-  - pages
-  - Framework
-  - SpringBoot
-tags:
-  - 
----
 # 使用 Spring Data JPA 访问 MySQL
 
 官方文档：https://docs.spring.io/spring-data/jpa/docs/2.4.2/reference/html/#repository-query-keywords

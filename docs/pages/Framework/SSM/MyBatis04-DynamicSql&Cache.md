@@ -1,14 +1,3 @@
----
-title: MyBatis04-DynamicSql&Cache
-date: 2022-07-27 22:41:46
-permalink: /pages/6099d0/
-categories:
-  - pages
-  - Framework
-  - SSM
-tags:
-  - 
----
 # MyBatis笔记(四)----动态SQL和缓存
 
 MyBatis笔记(四)，内容包括：

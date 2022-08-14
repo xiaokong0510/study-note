@@ -1,16 +1,3 @@
----
-title: MyBatis03-Association&Collection
-date: 2022-07-27 22:41:46
-permalink: /pages/47a4b8/
-categories:
-  - pages
-  - Framework
-  - SSM
-tags:
-  - 
----
-
-
 # MyBatis笔记(三)----高级结果映射association、collection
 
 MyBatis学习笔记(三)，多表查询的高级结果映射，内容包括：

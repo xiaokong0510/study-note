@@ -1,14 +1,3 @@
----
-title: MySQL基础02：MySQL 的日志系统
-date: 2022-07-27 22:41:46
-permalink: /pages/a5e529/
-categories:
-  - pages
-  - Databases
-  - MySQL
-tags:
-  - 
----
 # MySQL 的事务与日志系统
 
 简单总结 MySQL 的日志系统，包含以下内容：

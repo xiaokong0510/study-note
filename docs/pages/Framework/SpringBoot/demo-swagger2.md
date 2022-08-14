@@ -1,14 +1,3 @@
----
-title: demo-swagger2
-date: 2022-07-27 22:41:46
-permalink: /pages/7e9aae/
-categories:
-  - pages
-  - Framework
-  - SpringBoot
-tags:
-  - 
----
 # SpringBoot集成Swagger2
 
 **Swagger2** 是一个规范和完整的框架，可以用于生成、描述、调用和可视化 RESTful 风格的 Web 服务：

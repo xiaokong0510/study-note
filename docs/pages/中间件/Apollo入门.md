@@ -1,13 +1,3 @@
----
-title: Apollo入门
-date: 2022-07-27 22:41:46
-permalink: /pages/0dea31/
-categories:
-  - pages
-  - 中间件
-tags:
-  - 
----
 # Apollo入门
 
 公司项目使用了Apollo配置中心，找了个入门视频学习一下。只是一些基本的操作，架构有待深入研究。内容包括：

@@ -1,14 +1,3 @@
----
-title: Spring03-Transaction
-date: 2022-07-27 22:41:46
-permalink: /pages/b68b59/
-categories:
-  - pages
-  - Framework
-  - SSM
-tags:
-  - 
----
 # Spring笔记(三)----声明式事务
 
 Spring的声明式事务，内容包括：

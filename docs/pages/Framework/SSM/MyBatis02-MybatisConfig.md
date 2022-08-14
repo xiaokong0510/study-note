@@ -1,14 +1,3 @@
----
-title: MyBatis02-MybatisConfig
-date: 2022-07-27 22:41:46
-permalink: /pages/e76ee1/
-categories:
-  - pages
-  - Framework
-  - SSM
-tags:
-  - 
----
 # MyBatis(二)----核心配置文件、sql映射文件
 
 MyBatis学习笔记(二)， 内容包括：

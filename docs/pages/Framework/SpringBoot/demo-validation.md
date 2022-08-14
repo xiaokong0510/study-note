@@ -1,14 +1,3 @@
----
-title: demo-validation
-date: 2022-07-27 22:41:46
-permalink: /pages/b7d576/
-categories:
-  - pages
-  - Framework
-  - SpringBoot
-tags:
-  - 
----
 # JSR-303 接口参数校验
 
 JSR 是 Java Specification Requests 的缩写，意思是Java 规范提案。

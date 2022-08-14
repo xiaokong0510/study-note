@@ -1,14 +1,3 @@
----
-title: demo-mybatis
-date: 2022-07-27 22:41:46
-permalink: /pages/380505/
-categories:
-  - pages
-  - Framework
-  - SpringBoot
-tags:
-  - 
----
 # SpringBoot 整合 Mybatis
 MyBatis 官方中文文档：https://mybatis.org/mybatis-3/zh/
 

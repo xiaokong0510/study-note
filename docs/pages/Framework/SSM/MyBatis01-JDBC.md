@@ -1,14 +1,3 @@
----
-title: MyBatis01-JDBC
-date: 2022-07-27 22:41:46
-permalink: /pages/b0793b/
-categories:
-  - pages
-  - Framework
-  - SSM
-tags:
-  - 
----
 # MyBatis笔记(一)--原生JDBC
 
 MyBatis学习笔记(一)， 内容包括：

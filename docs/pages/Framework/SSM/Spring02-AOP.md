@@ -1,14 +1,3 @@
----
-title: Spring02-AOP
-date: 2022-07-27 22:41:46
-permalink: /pages/eba624/
-categories:
-  - pages
-  - Framework
-  - SSM
-tags:
-  - 
----
 # Spring(二)----动态代理、AOP
 
 Spring基础知识学习笔记(二)，内容包括：

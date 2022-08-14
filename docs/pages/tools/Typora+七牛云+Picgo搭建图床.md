@@ -1,13 +1,3 @@
----
-title: Typora+七牛云+Picgo搭建图床
-date: 2022-07-27 22:41:46
-permalink: /pages/962315/
-categories:
-  - pages
-  - tools
-tags:
-  - 
----
 # 使用 Typora+PicGo+七牛云搭建图床
 
 初学 Java 时，接触了 Typora 这个 MarkDown 文本编辑神器，使用起来非常方便。

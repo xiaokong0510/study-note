@@ -1,13 +1,3 @@
----
-title: 在Win10中启动WSL2
-date: 2022-07-27 22:41:46
-permalink: /pages/f0947a/
-categories:
-  - pages
-  - tools
-tags:
-  - 
----
 # 在 Win10 中启动 WSL2
 
 本文内容：

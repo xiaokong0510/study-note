@@ -1,14 +1,3 @@
----
-title: Redis入门
-date: 2022-07-27 22:41:46
-permalink: /pages/7cec50/
-categories:
-  - pages
-  - Databases
-  - Redis
-tags:
-  - 
----
 #  Redis 五大数据结构及常用指令
 
 官网：https://redis.io/        http://www.redis.cn/

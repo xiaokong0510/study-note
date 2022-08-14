@@ -21,12 +21,9 @@ module.exports = {
     nav: [
       { text: '首页', link: '/' },
       {
-        text: '计算机基础',
-        items: [
-          { text: '计算机网络', link: '/pages/Computer Basics/computer network/' },
-          { text: '操作系统', link: '/pages/Computer Basics/operating systems/' }
-        ]
+        text: '计算机基础', link: '/pages/ComputerBasics/'
       },
+
       {
         text: '数据结构与算法', link: '/pages/DataStructures&Algorithms/'
       },
@@ -65,12 +62,70 @@ module.exports = {
     ],
     //侧边导航栏：会根据当前的文件路径是否匹配侧边栏数据，自动显示/隐藏
     sidebar: {
+
+      '/pages/Computer Basics/': [
+        {
+          title: '计算机网络 ',
+          path: '/pages/Computer Basics/Network/',
+          collapsable: false, // 不折叠
+          sidebarDepth: 1,
+          children: [
+          ]
+        },
+        {
+          title: '操作系统',
+          path: '/pages/Computer Basics/OperatingSystems/',
+          collapsable: false, // 不折叠
+          sidebarDepth: 1,
+          children: [
+          ]
+        }
+      ],
+
+      '/pages/DataStructures&Algorithms/': [
+        {
+          title: '左神算法 ',
+          path: '/pages/DataStructures&Algorithms/',
+          collapsable: false, // 不折叠
+          sidebarDepth: 1,
+          children: [
+            '时间复杂度和简单排序算法',
+            '递归行为、归并排序与快排'
+          ]
+        }
+      ],
+
+      '/pages/Databases/MySQL/': [
+        {
+          title: 'MySQL 45讲 ',
+          path: '01-一条SQL查询语句的执行过程',
+          collapsable: false, // 不折叠
+          sidebarDepth: 1,
+          children: [
+            '01-一条SQL查询语句的执行过程',
+            '02-MySQL的日志系统'
+          ]
+        }
+      ],
+
+      '/pages/Databases/Redis/': [
+        {
+          title: 'Redis ',
+          path: 'Redis入门',
+          collapsable: false, // 不折叠
+          sidebarDepth: 1,
+          children: [
+            'Redis入门',
+          ]
+        }
+      ],
+
       '/pages/Framework/SSM/': [
         {
           title: 'MyBatis ',
           path: 'MyBatis01-JDBC',
           collapsable: false, // 不折叠
-          sidebarDepth: 0,
+          sidebarDepth: 1,
           children: [
             { title: "原生JDBC", path: "MyBatis01-JDBC" },
             { title: "核心配置文件", path: "MyBatis02-MybatisConfig" },
@@ -82,7 +137,7 @@ module.exports = {
           title: 'Spring',
           path: 'Spring01-IOC',
           collapsable: false, // 不折叠
-          sidebarDepth: 0,
+          sidebarDepth: 1,
           children: [
             { title: "IOC和依赖注入", path: "Spring01-IOC" },
             { title: "动态代理和AOP", path: "Spring02-AOP" },
@@ -92,9 +147,23 @@ module.exports = {
       ],
 
       '/pages/Framework/SpringBoot/': [
-        '',
-        'demo-helloworld',
-        'demo-jdbctemplate'
+        {
+          title: 'SpringBoot 案例 ',
+          path: 'demo-helloworld',
+          collapsable: false, // 不折叠
+          sidebarDepth: 1,
+          children: [
+            'demo-helloworld',
+            'demo-properties',
+            'demo-log-aop',
+            'demo-validation',
+            '接口参数校验异常小结',
+            'demo-swagger2',
+            'demo-jdbctemplate',
+            'demo-jpa',
+            'demo-mybatis'
+          ]
+        }
       ]
     }
   }

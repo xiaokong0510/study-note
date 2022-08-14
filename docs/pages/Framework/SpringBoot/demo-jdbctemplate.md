@@ -1,14 +1,3 @@
----
-title: demo-jdbctemplate
-date: 2022-07-27 22:41:46
-permalink: /pages/9811b6/
-categories:
-  - pages
-  - Framework
-  - SpringBoot
-tags:
-  - 
----
 # 使用 JdbcTemplate 访问 MySQL 数据库
 
 ## 1 数据库环境

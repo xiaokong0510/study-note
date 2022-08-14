@@ -1,14 +1,3 @@
----
-title: demo-helloworld
-date: 2022-07-27 22:41:46
-permalink: /pages/5a83dc/
-categories:
-  - pages
-  - Framework
-  - SpringBoot
-tags:
-  - 
----
 # SpringBoot 入门案例 HelloWorld
 
 ## 项目搭建

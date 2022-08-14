@@ -1,14 +1,3 @@
----
-title: Spring01-IOC
-date: 2022-07-27 22:41:46
-permalink: /pages/625dac/
-categories:
-  - pages
-  - Framework
-  - SSM
-tags:
-  - 
----
 # Spring笔记(一)----IOC控制反转、DI依赖注入
 
 Spring基础知识学习笔记(一)，内容包括：
