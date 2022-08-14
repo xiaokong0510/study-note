@@ -1,8 +1,8 @@
 ---
-home: true
-heroImage: /logo.png
-heroText: xiao 的后端记录
-tagline: 一点一滴都是进步
+home: true  # 启用默认主题
+heroImage: /logo.png  #首页图片,根路径是doc/.vuepress/public
+heroText: xiao's 学习记录
+tagline: 半路出家 举步维艰
 actionText: 开始查看 →
 actionLink:  /pages/README.md
 features:
