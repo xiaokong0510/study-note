@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>使用 Spring Data JPA 访问 MySQL | xiao blog</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="/study-note/logo.png">
+    <meta name="description" content="半路出家的 Java 学习之路">
+    
+    <link rel="preload" href="/study-note/assets/css/0.styles.0a4146bd.css" as="style"><link rel="preload" href="/study-note/assets/js/app.cf42b68c.js" as="script"><link rel="preload" href="/study-note/assets/js/2.a46c0893.js" as="script"><link rel="preload" href="/study-note/assets/js/28.6303e808.js" as="script"><link rel="prefetch" href="/study-note/assets/js/10.70b9e1c3.js"><link rel="prefetch" href="/study-note/assets/js/11.873f24f0.js"><link rel="prefetch" href="/study-note/assets/js/12.24ec706a.js"><link rel="prefetch" href="/study-note/assets/js/13.63a1f1ac.js"><link rel="prefetch" href="/study-note/assets/js/14.ded0c8ff.js"><link rel="prefetch" href="/study-note/assets/js/15.8774dd7b.js"><link rel="prefetch" href="/study-note/assets/js/16.4a8039a2.js"><link rel="prefetch" href="/study-note/assets/js/17.30e90002.js"><link rel="prefetch" href="/study-note/assets/js/18.5d91c0df.js"><link rel="prefetch" href="/study-note/assets/js/19.abcd4bc1.js"><link rel="prefetch" href="/study-note/assets/js/20.f131a49f.js"><link rel="prefetch" href="/study-note/assets/js/21.ef4c6972.js"><link rel="prefetch" href="/study-note/assets/js/22.e81700e0.js"><link rel="prefetch" href="/study-note/assets/js/23.4b340b61.js"><link rel="prefetch" href="/study-note/assets/js/24.15807cb4.js"><link rel="prefetch" href="/study-note/assets/js/25.e2265404.js"><link rel="prefetch" href="/study-note/assets/js/26.4bccdb22.js"><link rel="prefetch" href="/study-note/assets/js/27.acc5a154.js"><link rel="prefetch" href="/study-note/assets/js/29.4f135e26.js"><link rel="prefetch" href="/study-note/assets/js/3.972304b8.js"><link rel="prefetch" href="/study-note/assets/js/30.b1557a75.js"><link rel="prefetch" href="/study-note/assets/js/31.bc4dac61.js"><link rel="prefetch" href="/study-note/assets/js/32.465825f0.js"><link rel="prefetch" href="/study-note/assets/js/33.cdd29ad2.js"><link rel="prefetch" href="/study-note/assets/js/34.9ca320c9.js"><link rel="prefetch" href="/study-note/assets/js/35.9d4c86ee.js"><link rel="prefetch" href="/study-note/assets/js/36.4da200ad.js"><link rel="prefetch" href="/study-note/assets/js/37.3d0b6aa6.js"><link rel="prefetch" href="/study-note/assets/js/38.e037d465.js"><link rel="prefetch" href="/study-note/assets/js/39.42197d51.js"><link rel="prefetch" href="/study-note/assets/js/4.810a9dda.js"><link rel="prefetch" href="/study-note/assets/js/40.bd5a2c07.js"><link rel="prefetch" href="/study-note/assets/js/41.cda0b71f.js"><link rel="prefetch" href="/study-note/assets/js/42.0f5498a3.js"><link rel="prefetch" href="/study-note/assets/js/43.58cf8781.js"><link rel="prefetch" href="/study-note/assets/js/44.7b941b05.js"><link rel="prefetch" href="/study-note/assets/js/45.5fa838dc.js"><link rel="prefetch" href="/study-note/assets/js/46.659efba2.js"><link rel="prefetch" href="/study-note/assets/js/47.87c31dde.js"><link rel="prefetch" href="/study-note/assets/js/48.3aee5fe2.js"><link rel="prefetch" href="/study-note/assets/js/49.866b5e73.js"><link rel="prefetch" href="/study-note/assets/js/5.7b7c443b.js"><link rel="prefetch" href="/study-note/assets/js/50.d2e81187.js"><link rel="prefetch" href="/study-note/assets/js/6.723ea6d4.js"><link rel="prefetch" href="/study-note/assets/js/7.33a4fc23.js"><link rel="prefetch" href="/study-note/assets/js/8.915c66d9.js"><link rel="prefetch" href="/study-note/assets/js/9.ec1dee1c.js">
+    <link rel="stylesheet" href="/study-note/assets/css/0.styles.0a4146bd.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/study-note/" class="home-link router-link-active"><img src="/study-note/logo.png" alt="xiao blog" class="logo"> <span class="site-name can-hide">xiao blog</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/study-note/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><a href="/study-note/pages/ComputerBasics/" class="nav-link">
+  计算机基础
+</a></div><div class="nav-item"><a href="/study-note/pages/DataStructures&amp;Algorithms/" class="nav-link">
+  数据结构与算法
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java" class="dropdown-title"><span class="title">Java</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java" class="mobile-dropdown-title"><span class="title">Java</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/pages/Java/basic/" class="nav-link">
+  基础
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/pages/Java/concurrent/" class="nav-link">
+  并发
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/pages/Java/JVM/" class="nav-link">
+  JVM
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><span class="title">数据库</span> <span class="arrow down"></span></button> <button type="button" aria-label="数据库" class="mobile-dropdown-title"><span class="title">数据库</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/pages/Databases/MySQL/" class="nav-link">
+  MySQL
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/pages/Databases/Redis/" class="nav-link">
+  Redis
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="框架" class="dropdown-title"><span class="title">框架</span> <span class="arrow down"></span></button> <button type="button" aria-label="框架" class="mobile-dropdown-title"><span class="title">框架</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/pages/Framework/SSM/" class="nav-link">
+  SSM
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/pages/Framework/SpringBoot/" class="nav-link router-link-active">
+  SpringBoot
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/pages/Framework/SpringCloud/" class="nav-link">
+  SpringCloud
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="更多" class="dropdown-title"><span class="title">更多</span> <span class="arrow down"></span></button> <button type="button" aria-label="更多" class="mobile-dropdown-title"><span class="title">更多</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/pages/more/tools/" class="nav-link">
+  工具
+</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/xiaokong0510" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/study-note/" class="nav-link">
+  首页
+</a></div><div class="nav-item"><a href="/study-note/pages/ComputerBasics/" class="nav-link">
+  计算机基础
+</a></div><div class="nav-item"><a href="/study-note/pages/DataStructures&amp;Algorithms/" class="nav-link">
+  数据结构与算法
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Java" class="dropdown-title"><span class="title">Java</span> <span class="arrow down"></span></button> <button type="button" aria-label="Java" class="mobile-dropdown-title"><span class="title">Java</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/pages/Java/basic/" class="nav-link">
+  基础
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/pages/Java/concurrent/" class="nav-link">
+  并发
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/pages/Java/JVM/" class="nav-link">
+  JVM
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="数据库" class="dropdown-title"><span class="title">数据库</span> <span class="arrow down"></span></button> <button type="button" aria-label="数据库" class="mobile-dropdown-title"><span class="title">数据库</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/pages/Databases/MySQL/" class="nav-link">
+  MySQL
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/pages/Databases/Redis/" class="nav-link">
+  Redis
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="框架" class="dropdown-title"><span class="title">框架</span> <span class="arrow down"></span></button> <button type="button" aria-label="框架" class="mobile-dropdown-title"><span class="title">框架</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/pages/Framework/SSM/" class="nav-link">
+  SSM
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/pages/Framework/SpringBoot/" class="nav-link router-link-active">
+  SpringBoot
+</a></li><li class="dropdown-item"><!----> <a href="/study-note/pages/Framework/SpringCloud/" class="nav-link">
+  SpringCloud
+</a></li></ul></div></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="更多" class="dropdown-title"><span class="title">更多</span> <span class="arrow down"></span></button> <button type="button" aria-label="更多" class="mobile-dropdown-title"><span class="title">更多</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/study-note/pages/more/tools/" class="nav-link">
+  工具
+</a></li></ul></div></div><div class="nav-item"><a href="https://github.com/xiaokong0510" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Github
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <!----></nav>  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><a href="/study-note/pages/Framework/SpringBoot/demo-helloworld" class="sidebar-heading clickable open"><span>SpringBoot 案例 </span> <!----></a> <ul class="sidebar-links sidebar-group-items"><li><a href="/study-note/pages/Framework/SpringBoot/demo-helloworld.html" class="sidebar-link">SpringBoot 入门案例 HelloWorld</a></li><li><a href="/study-note/pages/Framework/SpringBoot/demo-properties.html" class="sidebar-link">SpringBoot 配置文件</a></li><li><a href="/study-note/pages/Framework/SpringBoot/demo-log-aop.html" class="sidebar-link">利用 AOP 实现日志切面</a></li><li><a href="/study-note/pages/Framework/SpringBoot/demo-validation.html" class="sidebar-link">JSR-303 接口参数校验</a></li><li><a href="/study-note/pages/Framework/SpringBoot/接口参数校验异常小结.html" class="sidebar-link">接口参数校验异常小结</a></li><li><a href="/study-note/pages/Framework/SpringBoot/demo-swagger2.html" class="sidebar-link">SpringBoot集成Swagger2</a></li><li><a href="/study-note/pages/Framework/SpringBoot/demo-jdbctemplate.html" class="sidebar-link">使用 JdbcTemplate 访问 MySQL 数据库</a></li><li><a href="/study-note/pages/Framework/SpringBoot/demo-jpa.html" aria-current="page" class="active sidebar-link">使用 Spring Data JPA 访问 MySQL</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/study-note/pages/Framework/SpringBoot/demo-jpa.html#_1-引入依赖" class="sidebar-link">1 引入依赖</a></li><li class="sidebar-sub-header"><a href="/study-note/pages/Framework/SpringBoot/demo-jpa.html#_2-配置文件" class="sidebar-link">2 配置文件</a></li><li class="sidebar-sub-header"><a href="/study-note/pages/Framework/SpringBoot/demo-jpa.html#_3-创建实体类" class="sidebar-link">3 创建实体类</a></li><li class="sidebar-sub-header"><a href="/study-note/pages/Framework/SpringBoot/demo-jpa.html#_4-创建数据访问接口-repository" class="sidebar-link">4 创建数据访问接口 Repository</a></li></ul></li><li><a href="/study-note/pages/Framework/SpringBoot/demo-mybatis.html" class="sidebar-link">SpringBoot 整合 Mybatis</a></li></ul></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="使用-spring-data-jpa-访问-mysql"><a href="#使用-spring-data-jpa-访问-mysql" class="header-anchor">#</a> 使用 Spring Data JPA 访问 MySQL</h1> <p>官方文档：https://docs.spring.io/spring-data/jpa/docs/2.4.2/reference/html/#repository-query-keywords</p> <p>GitHub: https://github.com/spring-projects/spring-data-jpa</p> <h2 id="_1-引入依赖"><a href="#_1-引入依赖" class="header-anchor">#</a> 1 引入依赖</h2> <ul><li>jpa</li> <li>mysql-connector-java</li></ul> <div class="language-xml line-numbers-mode"><pre class="language-xml"><code>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.springframework.boot<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>spring-boot-starter-data-jpa<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>mysql<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>mysql-connector-java<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br></div></div><h2 id="_2-配置文件"><a href="#_2-配置文件" class="header-anchor">#</a> 2 配置文件</h2> <div class="language-yaml line-numbers-mode"><pre class="language-yaml"><code><span class="token key atrule">spring</span><span class="token punctuation">:</span>
+  <span class="token key atrule">datasource</span><span class="token punctuation">:</span>
+    <span class="token key atrule">driver-class-name</span><span class="token punctuation">:</span> com.mysql.cj.jdbc.Driver
+    <span class="token key atrule">url</span><span class="token punctuation">:</span> jdbc<span class="token punctuation">:</span>mysql<span class="token punctuation">:</span>//127.0.0.1<span class="token punctuation">:</span>3306/mybatis<span class="token punctuation">?</span>userUnicode=true<span class="token important">&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;autoReconnect=true&amp;failOverReadOnly=false&amp;serverTimezone=GMT%2B8</span>
+    <span class="token key atrule">username</span><span class="token punctuation">:</span> root
+    <span class="token key atrule">password</span><span class="token punctuation">:</span> root
+
+  <span class="token key atrule">jpa</span><span class="token punctuation">:</span>
+    <span class="token key atrule">properties</span><span class="token punctuation">:</span>
+      <span class="token key atrule">hibernate</span><span class="token punctuation">:</span>
+        <span class="token key atrule">hbm2ddl</span><span class="token punctuation">:</span>
+          <span class="token key atrule">auto</span><span class="token punctuation">:</span> update
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br></div></div><p><code>spring.jpa.properties.hibernate.hbm2ddl.auto</code> 是 hibernate 的配置属性，其主要作用是：自动创建、更新、验证数据库表结构。该参数的几种配置如下：</p> <ul><li>create：每次加载hibernate时都会删除上一次的生成的表，然后根据 model 类再重新来生成新表。谨慎使用</li> <li>create-drop：每次加载hibernate时根据model类生成表，但是 sessionFactory 一关闭,表就自动删除</li> <li>update：最常用的属性，第一次加载hibernate时根据model类会自动建立起表的结构（前提是先建立好数据库），以后加载hibernate时根据model类自动更新表结构，即使表结构改变了但表中的行仍然存在不会删除以前的行。要注意的是当部署到服务器后，表结构是不会被马上建立起来的，是要等应用第一次运行起来后才会。</li> <li>validate：每次加载hibernate时，验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，但是会插入新值。</li></ul> <h2 id="_3-创建实体类"><a href="#_3-创建实体类" class="header-anchor">#</a> 3 创建实体类</h2> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token annotation punctuation">@Data</span>
+<span class="token annotation punctuation">@Builder</span>
+<span class="token annotation punctuation">@AllArgsConstructor</span>
+<span class="token annotation punctuation">@NoArgsConstructor</span>
+<span class="token annotation punctuation">@Entity</span>
+<span class="token annotation punctuation">@Table</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">&quot;user&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">User</span> <span class="token keyword">implements</span> <span class="token class-name">Serializable</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token keyword">long</span> serialVersionUID <span class="token operator">=</span> <span class="token number">1L</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 主键
+     */</span>
+    <span class="token annotation punctuation">@Id</span>
+    <span class="token annotation punctuation">@GeneratedValue</span><span class="token punctuation">(</span>strategy <span class="token operator">=</span> <span class="token class-name">GenerationType</span><span class="token punctuation">.</span>IDENTITY<span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">Long</span> id<span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 用户名
+     */</span>
+    <span class="token annotation punctuation">@Column</span><span class="token punctuation">(</span>name <span class="token operator">=</span> <span class="token string">&quot;name&quot;</span><span class="token punctuation">)</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> name<span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 手机号码
+     */</span>
+    <span class="token keyword">private</span> <span class="token class-name">String</span> phoneNumber<span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 状态，1 有效；0 无效
+     */</span>
+    <span class="token keyword">private</span> <span class="token class-name">Byte</span> status<span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 创建时间
+     */</span>
+    <span class="token keyword">private</span> <span class="token class-name">LocalDateTime</span> createTime<span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 更新时间
+     */</span>
+    <span class="token keyword">private</span> <span class="token class-name">LocalDateTime</span> updateTime<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br></div></div><p>注解说明：</p> <ul><li><code>@Entity</code>: 标识了 User 类是一个持久化的实体</li> <li><code>@Id</code> 和 <code>@GeneratedValue</code> 用来标识 User 对应对应数据库表中的主键，可选四种策略。
+<ul><li>TABLE：使用一个特定的数据库表格来保存主键。</li> <li>SEQUENCE：根据底层数据库的序列来生成主键，条件是数据库支持序列。</li> <li>IDENTITY：主键由数据库自动生成（主要是自动增长型）</li> <li>AUTO：主键由程序控制。</li></ul></li> <li><code>@Column</code>：用于成员变量名与表字段名的映射，JPA 默认使用的命名策略是下划线分隔的字段命名</li> <li><code>@DynamicInsert</code>: 设置为true,表示 insert 对象的时候,生成动态的 insert 语句,如果这个字段的值是 null 就不会加入到 insert 语句当中。默认 false</li> <li><code>@DynamicUpdate</code>: 设置为true,表示 update 对象的时候,生成动态的 update 语句,如果这个字段的值是 null 就不会被加入到 update 语句中,默认 false</li></ul> <h2 id="_4-创建数据访问接口-repository"><a href="#_4-创建数据访问接口-repository" class="header-anchor">#</a> 4 创建数据访问接口 Repository</h2> <div class="language-java line-numbers-mode"><pre class="language-java"><code><span class="token annotation punctuation">@Repository</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">UserRepository</span> <span class="token keyword">extends</span> <span class="token class-name">JpaRepository</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">User</span><span class="token punctuation">,</span> <span class="token class-name">Long</span><span class="token punctuation">&gt;</span></span> <span class="token punctuation">{</span>
+
+    <span class="token comment">/**
+     * 根据用户名查找
+     *
+     * @param name
+     * @return
+     */</span>
+    <span class="token class-name">User</span> <span class="token function">findByName</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * 根据用户名和手机号查询
+     *
+     * @param name
+     * @param phoneNumber
+     * @return
+     */</span>
+    <span class="token class-name">User</span> <span class="token function">findByNameAndPhoneNumber</span><span class="token punctuation">(</span><span class="token class-name">String</span> name<span class="token punctuation">,</span> <span class="token class-name">String</span> phoneNumber<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment">/**
+     * @param name
+     * @return
+     */</span>
+    <span class="token annotation punctuation">@Query</span><span class="token punctuation">(</span><span class="token string">&quot;from User u where u.name=:name&quot;</span><span class="token punctuation">)</span>
+    <span class="token class-name">User</span> <span class="token function">findUser</span><span class="token punctuation">(</span><span class="token annotation punctuation">@Param</span><span class="token punctuation">(</span><span class="token string">&quot;name&quot;</span><span class="token punctuation">)</span> <span class="token class-name">String</span> name<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    
+<span class="token punctuation">}</span>
+</code></pre> <div class="line-numbers-wrapper"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br></div></div><p>在 Spring Data JPA中，只需要编写接口继承 JpaRepository, 就可实现数据访问。</p> <p>JpaRepository 接口本身已经实现了创建（save）、更新（save）、删除（delete）、查询（findAll、findOne）等基本操作的函数，因此对于这些基础操作的数据访问就不需要开发者再自己定义。</p> <p>支持通过解析方法名创建查询，例如 findByNameAndPhoneNumber</p> <p>支持使用 <code>@Query</code> 注解来创建查询，编写 JPQL 语句，并通过类似“:name”来映射 @Param 指定的参数</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">8/14/2022, 1:08:51 PM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/study-note/pages/Framework/SpringBoot/demo-jdbctemplate.html" class="prev">
+        使用 JdbcTemplate 访问 MySQL 数据库
+      </a></span> <span class="next"><a href="/study-note/pages/Framework/SpringBoot/demo-mybatis.html">
+        SpringBoot 整合 Mybatis
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/study-note/assets/js/app.cf42b68c.js" defer></script><script src="/study-note/assets/js/2.a46c0893.js" defer></script><script src="/study-note/assets/js/28.6303e808.js" defer></script>
+  </body>
+</html>
