@@ -1,7 +1,7 @@
 {
   "name": "study-note",
   "version": "1.0.0",
-  "description": "- [基础班(一)：时间复杂度和简单排序算法.md](docs/数据结构与算法/基础班(一)-时间复杂度和简单排序算法.md)\r - [基础班(二)：递归行为、归并排序与快排.md](docs/数据结构与算法/基础班(二)-递归行为、归并排序与快排.md)",
+  "description": "个人学习笔记整理",
   "main": "index.js",
   "scripts": {
     "docs:dev": "vuepress dev docs",
@@ -20,9 +20,7 @@
   "homepage": "https://github.com/xiaokong0510/study-note#readme",
   "devDependencies": {
     "@vuepress/plugin-back-to-top": "^1.9.7",
+    "@vuepress/plugin-medium-zoom": "^1.9.7",
     "vuepress": "^1.9.7"
-  },
-  "dependencies": {
-    "vuepress-plugin-code-copy": "^1.0.6"
   }
 }

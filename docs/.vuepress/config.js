@@ -11,7 +11,8 @@ module.exports = {
   },
   plugins: [
     ['@vuepress/back-to-top'],
-    ['vuepress-plugin-code-copy', true]
+    ['vuepress-plugin-code-copy', true],
+	  ['@vuepress/medium-zoom']
   ],
   themeConfig: {
     logo: '/logo.png',  // 网页顶端导航栏左上角的图标
@@ -38,8 +39,8 @@ module.exports = {
       {
         text: '数据库',
         items: [
-          { text: 'MySQL', link: '/pages/Databases/MySQL/' },
-          { text: 'Redis', link: '/pages/Databases/Redis/' }
+          { text: 'MySQL', link: '/pages/Database/MySQL/' },
+          { text: 'Redis', link: '/pages/Database/Redis/' }
         ]
       },
       {
@@ -95,20 +96,24 @@ module.exports = {
         }
       ],
 
-      '/pages/Databases/MySQL/': [
+      '/pages/Database/MySQL/': [
         {
-          title: 'MySQL 45讲 ',
-          path: '01-一条SQL查询语句的执行过程',
+          title: 'MySQL 实战 45 讲 ',
+          path: '/pages/Database/MySQL/',
           collapsable: false, // 不折叠
           sidebarDepth: 1,
           children: [
-            '01-一条SQL查询语句的执行过程',
-            '02-MySQL的日志系统'
+             "01-MySQL的基础架构",
+             "02-MySQL的日志系统",
+             "03-事务隔离",
+             "04-深入浅出索引",
+             "05-MySQL中的锁",
+             "06-MVCC"
           ]
         }
       ],
 
-      '/pages/Databases/Redis/': [
+      '/pages/Database/Redis/': [
         {
           title: 'Redis ',
           path: 'Redis入门',
