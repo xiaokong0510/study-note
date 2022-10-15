@@ -1,8 +1,8 @@
 # 02-MySQL 的日志系统
 
-MySQL 实战 45 讲02 | 日志系统：一条SQL更新语句是如何执行的？
+[MySQL 实战 45 讲 02 | 日志系统：一条SQL更新语句是如何执行的？](https://time.geekbang.org/column/article/68633)
 
-总结 MySQL 的日志系统，并扩展了部分知识点，包含以下内容：
+以一条更新语句的执行流程切入，总结 MySQL 的日志系统，并扩展了部分知识点，包含以下内容：
 
 - MySQL 的日志系统
   - redo log（重做日志）
@@ -11,11 +11,22 @@ MySQL 实战 45 讲02 | 日志系统：一条SQL更新语句是如何执行的�
 - update 语句执行流程
 - 两阶段提交
 
-参考文档：[MySQL 事务日志](https://www.cxyxiaowu.com/10740.html)
+参考文档：
+1. [MySQL 事务日志](https://www.cxyxiaowu.com/10740.html)
+2. [Java 全栈知识体系 - MySQL - 一条 SQL 的执行过程详解](https://pdai.tech/md/db/sql-mysql/sql-mysql-execute.html)
+
+```sql
+# 建表
+create table T(ID int primary key, c int);
+# 执行更新语句
+update T set c=c+1 where ID=2;
+```
+
+与查询流程不一样的是，更新流程还涉及重要的日志模块。
 
 ## redo log
 
-redo log 是 InnoDB 引擎层的日志，记录什么时间对某一页进行了怎么样的修改，是**物理日志**。
+redo log 是 InnoDB 引擎层的日志，用来记录事务操作引起数据的变化，记录的是数据页的物理修改，是**物理日志**。
 
 > 举个例子：酒店掌柜记账，有一个粉板专门记录赊账记录，还有一个专门记录赊账的账本。记账方式：
 >
@@ -28,7 +39,7 @@ redo log 是 InnoDB 引擎层的日志，记录什么时间对某一页进行了
 
 **预写式技术（Write Ahead logging，WAL）**：先写日志，再写磁盘。
 
-当有一条记录需要更新的时候，先将更新记录写入 redo log 日志，并更新内存，这个时候更新就算完成了；然后会在系统空闲的时候或者是按照设定的更新策略再将这个操作记录更新到磁盘之中。
+当有一条记录需要更新的时候，先将更新记录写入 redo log 日志，并更新内存（`buffer pool`），这个时候更新就算完成了；然后会在系统空闲的时候或者是按照设定的更新策略再将这个操作记录更新到磁盘之中。
 
 这样可以大大减少 IO 操作的频率，提升数据刷新的效率。
 
@@ -43,24 +54,24 @@ redo log 是 InnoDB 引擎层的日志，记录什么时间对某一页进行了
 
 redo log 是固定大小的，为了能够持续不断的对更新记录进行写入，在 redo log 日志中设置了两个标志位置：
 
-- checkpoint：记录擦除的位置，是往后推移并且循环的，擦除记录前要把记录更新到数据文件
--  write_pos：当前记录的位置，一边写一边后移，如下图中写到第 3 号文件末尾后就回到 0 号文件开头
+- `checkpoint`：记录擦除的位置，是往后推移并且循环的，擦除记录前要把记录更新到数据文件
+-  `write_pos`：当前记录的位置，一边写一边后移，如下图中写到第 3 号文件末尾后就回到 0 号文件开头
 
-当 write_pos 追上 checkpoint 时，表示 redo log 日志已经写满，这时不能继续执行新的数据库更新语句，需要停下来先删除一些记录，执行 checkpoint 规则腾出可写空间。
-
-> **checkpoint 规则**：checkpoint  触发后，将 buffer 中脏数据页和脏日志页都刷到磁盘。
+write pos 和 checkpoint 之间的是“粉板”上还空着的部分，可以用来记录新的操作。当 write_pos 追上 checkpoint 时，表示 redo log 日志已经写满，这时不能继续执行新的数据库更新语句，需要停下来先删除一些记录，执行 checkpoint 规则腾出可写空间：将 buffer 中脏数据页和脏日志页都刷到磁盘。
 
 <img src="http://image.kongxiao.top/20220829222312.png" alt="image-20220829222303385" style="zoom:50%;" />
 
-如果 MySQL 宕机，重启时可以读取 redo log中的数据，对数据库进行恢复，从而保证了事务的持久性，使得数据库获得 **crash-safe** 能力。
+如果 MySQL 宕机，重启时可以读取 redo log 中的数据，对数据库进行恢复，从而保证了事务的持久性，使得数据库获得 **crash-safe** 能力。
 
 ### 脏日志刷盘
 
 redo log 日志在记录时，为了保证日志文件的持久化，也需要经历将日志记录从内存写入到磁盘的过程，即存在易失性内存中的缓存日志 redo log buff ，到保存在磁盘上的 redo log 日志文件 redo log file。
 
-为了确保每次记录都能够写入到磁盘中的日志中，每次将 redo log buffer  中的日志写入 redo log file的过程中都会调用一次操作系统的 fsync 操作。在写入的过程中，需要经过操作系统内核空间的 os buffer。
+为了确保每次记录都能够写入到磁盘中的日志中，每次将 redo log buffer  中的日志写入 redo log file 的过程中都会调用一次操作系统的 fsync 操作。在写入的过程中，需要经过操作系统内核空间的 os buffer。
 
 >**fsync函数**：包含在UNIX系统头文件#include <unistd.h>中，用于同步内存中所有已修改的文件数据到储存设备。
+
+![image-20221014223317679](http://image.kongxiao.top/20221014223348.png)
 
 InnoDB 提供了 `innodb_flush_log_at_trx_commit` 参数，有以下三种将 redo log buffer 写入 redo log file 的时机：
 
@@ -85,15 +96,14 @@ binlog 是 Server 层自己的日志，记录的是 SQL 语句的原始逻辑，
 
 ### 三种日志格式
 
-- STATMENT：基于 SQL 语句的复制( statement-based replication, SBR )，每一条会修改数据的 SQL 语句会记录到 binlog 中 
-- ROW：基于行的复制( row-based replication, RBR )，不记录每条 SQL 语句的上下文信息，仅需记录哪条数据被修改了
-- MIXED：基于 STATMENT 和 ROW 两种模式的混合复制( mixed-based replication, MBR )
+- STATMENT：基于 SQL 语句的复制( statement-based replication, SBR )，每一条会修改数据的 SQL 语句会记录到 binlog 中。不需要记录每一行的变化，减少了 bin log 日志量，但是在某些情况下会导致主从数据不一致，比如执行sysdate()、sleep()等；
+- ROW：基于行的复制( row-based replication, RBR )，不记录每条 SQL 语句的上下文信息，仅需记录哪条数据被修改了；不会出现无法被正确复制的问题，但产生大量的日志，尤其是 alter table 的时候会让日志暴涨；
+- MIXED：基于 STATMENT 和 ROW 两种模式的混合复制(mixed-based replication, MBR)。一般的复制使用 STATEMENT 模式保存 bin log ，对于 STATEMENT 模式无法复制的操作使用 ROW 模式保存
 
 ### 刷盘时机
 
 通过 `sync_binlog` 参数控制 biglog 的刷盘时机：
-
-- 0：不去强制要求，由系统自行判断何时写入磁盘
+- 0：不去强制要求，由系统自行判断何时写入磁盘，默认
 - 1：每次 commit 的时候都要将 binlog 写入磁盘
 - N：每 N 个事务，才会将 binlog 写入磁盘
 
@@ -109,7 +119,7 @@ mysql> update T set c=c+1 where ID=2;
 
 1. 执行器先找到 ID=2 这一行，如果 ID=2 这一行所在的数据页本来就在内存中（磁盘预读），就直接返回给执行器；否则，需要先从磁盘读入内存，然后再返回；
 2. 执行器拿到引擎给的行数据，把这个值加上 1，比如原来是 N，现在就是 N+1，得到新的一行数据，再调用引擎接口写入这行新数据；
-3. 引擎将这行新数据更新到内存中，同时将这个更新操作记录到 redo log 里面，此时 redo log 处于 prepare 状态。然后告知执行器执行完成了，随时可以提交事务；
+3. 引擎将这行新数据更新到内存中，这里会写入 undo log 日志文件，同时将这个更新操作记录到  redo log 中，此时 redo log 处于 prepare 状态。然后告知执行器执行完成了，随时可以提交事务；
 4. 执行器生成这个操作的 binlog，并把 binlog 写入磁盘；
 5. 执行器调用引擎的提交事务接口，引擎把刚刚写入的 redo log 改成提交（commit）状态，更新完成。
 
@@ -146,11 +156,4 @@ mysql> update T set c=c+1 where ID=2;
 
 当发生回滚时，InnoDB 引擎会根据 undo log 日志中的记录做与之前相反的工作。比如对于每个 insert 操作，回滚时会执行数据 delete 操作；对于每个数据 delete 操作，回滚时会执行数据 insert 操作；对于每个数据 update 操作，回滚时会执行一个相反的数据 update 操作，把数据改回去。
 
-undo log 有两个作用，一是提供回滚，二是实现MVCC。后续会深入研究。
-
-----
-
-思考题：定期全量备份的周期“取决于系统重要性，有的是一天一备，有的是一周一备”。那么在什么场景下，一天一备会比一周一备更有优势呢？或者说，它影响了这个数据库系统的哪个指标?
-
-答案：在一天一备的模式里，最坏情况下需要应用一天的 binlog。一周一备最坏情况就要应用一周的 binlog 了。系统的对应指标就是 RTO（恢复目标时间）。当然这个是有成本的，因为更频繁全量备份需要消耗更多存储空间，所以这个 RTO 是成本换来的，需要根据业务重要性来评估。
-
+undo log 有两个作用，一是提供回滚，二是实现 MVCC。后续会深入研究。
