@@ -1,6 +1,6 @@
 # 02-MySQL 的日志系统
 
-[MySQL 实战 45 讲 02 | 日志系统：一条SQL更新语句是如何执行的？](https://time.geekbang.org/column/article/68633)
+课程链接：[MySQL 实战 45 讲 02 | 日志系统：一条SQL更新语句是如何执行的？](https://time.geekbang.org/column/article/68633)
 
 以一条更新语句的执行流程切入，总结 MySQL 的日志系统，并扩展了部分知识点，包含以下内容：
 
@@ -33,7 +33,7 @@ redo log 是 InnoDB 引擎层的日志，用来记录事务操作引起数据的
 > - 直接把账本翻出来，把这次赊的账加上去或者扣除掉；**随机 IO**
 > - 先在粉板上记下这次的账，等打烊以后再把账本翻出来核算。**顺序 IO ，提交来批量更新**
 
-同样，在 MySQL 中，如果每一次的更新操作都需要写进磁盘，然后磁盘也要找到对应的那条记录，然后再更新，整个过程 IO 成本、查找成本都很高。为了解决这个问题，MySQL 的设计者就用了类似酒店掌柜粉板的思路来提升更新效率。
+同样，在 MySQL 中，如果每一次的更新操作都需要写进磁盘，然后磁盘也要找到对应的那条记录，然后再更新，整个过程 IO 成本、查找成本都很高。为解决这个问题，MySQL 的设计者使用类似酒店掌柜粉板的思路来提升更新效率。
 
 ### WAL
 
@@ -59,7 +59,7 @@ redo log 是固定大小的，为了能够持续不断的对更新记录进行�
 
 write pos 和 checkpoint 之间的是“粉板”上还空着的部分，可以用来记录新的操作。当 write_pos 追上 checkpoint 时，表示 redo log 日志已经写满，这时不能继续执行新的数据库更新语句，需要停下来先删除一些记录，执行 checkpoint 规则腾出可写空间：将 buffer 中脏数据页和脏日志页都刷到磁盘。
 
-<img src="http://image.kongxiao.top/20220829222312.png" alt="image-20220829222303385" style="zoom:50%;" />
+<img src="http://image.kongxiao.top/20220829222312.png" style="zoom:50%;" />
 
 如果 MySQL 宕机，重启时可以读取 redo log 中的数据，对数据库进行恢复，从而保证了事务的持久性，使得数据库获得 **crash-safe** 能力。
 
@@ -88,19 +88,19 @@ binlog 是 Server 层自己的日志，记录的是 SQL 语句的原始逻辑，
 
 因为最开始 MySQL 里并没有 InnoDB 引擎。MySQL 自带的引擎是 MyISAM，但是 MyISAM 没有 crash-safe 的能力，binlog 日志只能用于归档。而 InnoDB 是另一个公司以插件形式引入 MySQL 的，既然只依靠 binlog 是没有 crash-safe 能力的，所以 InnoDB 使用另外一套日志系统——也就是 redo log 来实现 crash-safe 能力。
 
-对比：
+**redo log 与 binlog 对比：**
 
-1. redo log 是 InnoDB 引擎特有的；binlog 是 MySQL 的 Server 层实现的，所有引擎都可以使用。
-2. redo log 是物理日志，记录的是“在某个数据页上做了什么修改”；binlog 是逻辑日志，记录的是这个语句的原始逻辑，比如“给 ID=2 这一行的 c 字段加 1 ”。
+1. redo log 是 InnoDB 引擎特有的；binlog 是 MySQL 的 Server 层实现的，所有引擎都可以使用；
+2. redo log 是物理日志，记录的是“在某个数据页上做了什么修改”；binlog 是逻辑日志，记录的是这个语句的原始逻辑，比如“给 ID=2 这一行的 c 字段加 1 ”；
 3. redo log 是**循环写**的，空间固定会用完；binlog 是可以**追加写入**的，写到一定大小后会切换到下一个，并不会覆盖以前的日志。
 
-### 三种日志格式
+### binlog 三种日志格式
 
 - STATMENT：基于 SQL 语句的复制( statement-based replication, SBR )，每一条会修改数据的 SQL 语句会记录到 binlog 中。不需要记录每一行的变化，减少了 bin log 日志量，但是在某些情况下会导致主从数据不一致，比如执行sysdate()、sleep()等；
 - ROW：基于行的复制( row-based replication, RBR )，不记录每条 SQL 语句的上下文信息，仅需记录哪条数据被修改了；不会出现无法被正确复制的问题，但产生大量的日志，尤其是 alter table 的时候会让日志暴涨；
 - MIXED：基于 STATMENT 和 ROW 两种模式的混合复制(mixed-based replication, MBR)。一般的复制使用 STATEMENT 模式保存 bin log ，对于 STATEMENT 模式无法复制的操作使用 ROW 模式保存
 
-### 刷盘时机
+### binlog 刷盘时机
 
 通过 `sync_binlog` 参数控制 biglog 的刷盘时机：
 - 0：不去强制要求，由系统自行判断何时写入磁盘，默认
@@ -117,13 +117,13 @@ mysql> update T set c=c+1 where ID=2;
 
 执行流程：
 
-1. 执行器先找到 ID=2 这一行，如果 ID=2 这一行所在的数据页本来就在内存中（磁盘预读），就直接返回给执行器；否则，需要先从磁盘读入内存，然后再返回；
+1. 执行器先找到 ID=2 这一行，如果 ID=2 这一行所在的数据页本来就在内存中，就直接返回给执行器；否则，需要先从磁盘读入内存，然后再返回；
 2. 执行器拿到引擎给的行数据，把这个值加上 1，比如原来是 N，现在就是 N+1，得到新的一行数据，再调用引擎接口写入这行新数据；
 3. 引擎将这行新数据更新到内存中，这里会写入 undo log 日志文件，同时将这个更新操作记录到  redo log 中，此时 redo log 处于 prepare 状态。然后告知执行器执行完成了，随时可以提交事务；
 4. 执行器生成这个操作的 binlog，并把 binlog 写入磁盘；
 5. 执行器调用引擎的提交事务接口，引擎把刚刚写入的 redo log 改成提交（commit）状态，更新完成。
 
-<img src="http://image.kongxiao.top/20220829222640.png" alt="image-20220829222638903" style="zoom:80%;" />
+<img src="http://image.kongxiao.top/20220829222640.png" style="zoom:80%;" />
 
 ## 两阶段提交
 
@@ -140,11 +140,11 @@ mysql> update T set c=c+1 where ID=2;
 
 反证法证明两阶段提交的必要性：
 
-**先写 redo log 后写 binlog：**
+- 先写 redo log 后写 binlog：
 
-假设在 redo log 写完，binlog 还没有写完的时候，MySQL 进程异常重启。redo log 写完之后，系统即使崩溃，仍然能够把数据恢复回来，所以恢复后这一行 c 的值是 1。但是由于 binlog 没写完就 crash 了，这时候 binlog 里面就没有记录这个语句。因此，之后备份日志的时候，存起来的 binlog 里面就没有这条语句，如果需要用这个 binlog 来恢复临时库的话，这个临时库就会少了这一次更新，恢复出来的这一行 c 的值就是 0，与原库的值不同。
+如果 redo log 写完，binlog 还没有写完时，MySQL 进程异常重启。redo log 写完之后，系统即使崩溃，仍然能够把数据恢复回来，恢复后这一行 c 的值是 1。但是由于 binlog 没写完就 crash 了，此时 binlog 里面就没有记录这个语句。因此，之后使用这个 binlog 来恢复临时库的话，就会少了这一次更新，恢复出来的这一行 c 的值就是 0，与原库的值不同。
 
-**先写 binlog 后写 redo log：**
+- 先写 binlog 后写 redo log：
 
 如果在 binlog 写完之后 crash，由于 redo log 还没写，崩溃恢复以后这个事务无效，所以这一行 c 的值是 0。但是 binlog 里面已经记录了“把 c 从 0 改成 1”这个日志。所以，在之后用 binlog 来恢复的时候就多了一个事务出来，恢复出来的这一行 c 的值就是 1，与原库的值不同。
 
@@ -157,3 +157,10 @@ mysql> update T set c=c+1 where ID=2;
 当发生回滚时，InnoDB 引擎会根据 undo log 日志中的记录做与之前相反的工作。比如对于每个 insert 操作，回滚时会执行数据 delete 操作；对于每个数据 delete 操作，回滚时会执行数据 insert 操作；对于每个数据 update 操作，回滚时会执行一个相反的数据 update 操作，把数据改回去。
 
 undo log 有两个作用，一是提供回滚，二是实现 MVCC。后续会深入研究。
+
+----
+
+思考题：定期全量备份的周期“取决于系统重要性，有的是一天一备，有的是一周一备”。那么在什么场景下，一天一备会比一周一备更有优势呢？或者说，它影响了这个数据库系统的哪个指标？
+
+答案：一天一备跟一周一备的对比，好处是“最长恢复时间”更短。在一天一备的模式里，最坏情况下需要应用一天的 binlog。比如，每天 0 点做一次全量备份，而要恢复出一个到昨天晚上 23 点的备份。一周一备最坏情况就要应用一周的 binlog 了。系统的对应指标就是 RTO（恢复目标时间）。当然这个是有成本的，因为更频繁全量备份需要消耗更多存储空间，所以这个 RTO 是成本换来的，需要根据业务重要性来评估。
+
