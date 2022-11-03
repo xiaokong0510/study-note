@@ -12,7 +12,26 @@ module.exports = {
   plugins: [
     ['@vuepress/back-to-top'],
     ['vuepress-plugin-code-copy', true],
-	  ['@vuepress/medium-zoom']
+	  ['@vuepress/medium-zoom'],
+    ['vuepress-plugin-right-anchor',{
+      expand: {
+        trigger: 'click',
+        clickModeDefaultOpen: true
+      },
+      ignore:[
+        '/pages/ComputerBasics/',
+        '/pages/DataStructures&Algorithms/',
+        '/pages/Java/basic/',
+        '/pages/Java/concurrent/',
+        '/pages/Java/JVM/',
+        '/pages/Database/MySQL/',
+        '/pages/Database/Redis/',
+        '/pages/Framework/SSM/',
+        '/pages/Framework/SpringBoot/',
+        '/pages/Framework/SpringCloud/',
+        '/pages/more/tools/'
+      ]
+    }]
   ],
   themeConfig: {
     logo: '/logo.png',  // 网页顶端导航栏左上角的图标
@@ -69,7 +88,7 @@ module.exports = {
           title: '计算机网络 ',
           path: '/pages/Computer Basics/Network/',
           collapsable: false, // 不折叠
-          sidebarDepth: 1,
+          sidebarDepth: 0,
           children: [
           ]
         },
@@ -77,7 +96,7 @@ module.exports = {
           title: '操作系统',
           path: '/pages/Computer Basics/OperatingSystems/',
           collapsable: false, // 不折叠
-          sidebarDepth: 1,
+          sidebarDepth: 0,
           children: [
           ]
         }
@@ -88,7 +107,7 @@ module.exports = {
           title: '左神算法 ',
           path: '/pages/DataStructures&Algorithms/',
           collapsable: false, // 不折叠
-          sidebarDepth: 1,
+          sidebarDepth: 0,
           children: [
             '时间复杂度和简单排序算法',
             '递归行为、归并排序与快排'
@@ -101,7 +120,7 @@ module.exports = {
           title: 'MySQL 实战 45 讲 ',
           path: '/pages/Database/MySQL/',
           collapsable: false, // 不折叠
-          sidebarDepth: 1,
+          sidebarDepth: 0,
           children: [
              "01-MySQL的基础架构",
              "02-MySQL的日志系统",
@@ -118,7 +137,7 @@ module.exports = {
           title: 'Redis ',
           path: 'Redis入门',
           collapsable: false, // 不折叠
-          sidebarDepth: 1,
+          sidebarDepth: 0,
           children: [
             'Redis入门',
           ]
@@ -130,7 +149,7 @@ module.exports = {
           title: 'MyBatis ',
           path: 'MyBatis01-JDBC',
           collapsable: false, // 不折叠
-          sidebarDepth: 1,
+          sidebarDepth: 0,
           children: [
             { title: "原生JDBC", path: "MyBatis01-JDBC" },
             { title: "核心配置文件", path: "MyBatis02-MybatisConfig" },
@@ -142,7 +161,7 @@ module.exports = {
           title: 'Spring',
           path: 'Spring01-IOC',
           collapsable: false, // 不折叠
-          sidebarDepth: 1,
+          sidebarDepth: 0,
           children: [
             { title: "IOC和依赖注入", path: "Spring01-IOC" },
             { title: "动态代理和AOP", path: "Spring02-AOP" },
@@ -156,7 +175,7 @@ module.exports = {
           title: 'SpringBoot 案例 ',
           path: 'demo-helloworld',
           collapsable: false, // 不折叠
-          sidebarDepth: 1,
+          sidebarDepth: 0,
           children: [
             'demo-helloworld',
             'demo-properties',
