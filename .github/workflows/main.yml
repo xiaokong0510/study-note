@@ -1,10 +1,10 @@
 name: docs
 
 on:
-  # Ã¿µ± push µ½ main ·ÖÖ§Ê±´¥·¢²¿Êğ
+  # æ¯å½“ push åˆ° main åˆ†æ”¯æ—¶è§¦å‘éƒ¨ç½²
   push:
     branches: [master]
-  # ÊÖ¶¯´¥·¢²¿Êğ
+  # æ‰‹åŠ¨è§¦å‘éƒ¨ç½²
   workflow_dispatch:
 
 jobs:
@@ -14,16 +14,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          # ¡°×î½ü¸üĞÂÊ±¼ä¡± µÈ git ÈÕÖ¾Ïà¹ØĞÅÏ¢£¬ĞèÒªÀ­È¡È«²¿Ìá½»¼ÇÂ¼
+          # â€œæœ€è¿‘æ›´æ–°æ—¶é—´â€ ç­‰ git æ—¥å¿—ç›¸å…³ä¿¡æ¯ï¼Œéœ€è¦æ‹‰å–å…¨éƒ¨æäº¤è®°å½•
           fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          # Ñ¡ÔñÒªÊ¹ÓÃµÄ node °æ±¾
-          node-version: "14"
+          # é€‰æ‹©è¦ä½¿ç”¨çš„ node ç‰ˆæœ¬
+          node-version: "12"
 
-      # »º´æ node_modules
+      # ç¼“å­˜ node_modules
       - name: Cache dependencies
         uses: actions/cache@v2
         id: yarn-cache
@@ -34,22 +34,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
 
-      # Èç¹û»º´æÃ»ÓĞÃüÖĞ£¬°²×°ÒÀÀµ
+      # å¦‚æœç¼“å­˜æ²¡æœ‰å‘½ä¸­ï¼Œå®‰è£…ä¾èµ–
       - name: Install dependencies
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn
 
-      # ÔËĞĞ¹¹½¨½Å±¾
+      # è¿è¡Œæ„å»ºè„šæœ¬
       - name: Build VuePress site
         run: yarn docs:build
 
-      # ²é¿´ workflow µÄÎÄµµÀ´»ñÈ¡¸ü¶àĞÅÏ¢
+      # æŸ¥çœ‹ workflow çš„æ–‡æ¡£æ¥è·å–æ›´å¤šä¿¡æ¯
       # @see https://github.com/crazy-max/ghaction-github-pages
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          # ²¿Êğµ½ gh-pages ·ÖÖ§
+          # éƒ¨ç½²åˆ° gh-pages åˆ†æ”¯
           BRANCH: gh-pages
-          # ²¿ÊğÄ¿Â¼Îª VuePress µÄÄ¬ÈÏÊä³öÄ¿Â¼
+          # éƒ¨ç½²ç›®å½•ä¸º VuePress çš„é»˜è®¤è¾“å‡ºç›®å½•
           FOLDER: docs/.vuepress/dist
