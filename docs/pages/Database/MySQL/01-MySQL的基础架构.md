@@ -157,7 +157,7 @@ ERROR 1142 (42000): SELECT command denied to user 'b'@'localhost' for table 'T'
 
 -------
 
-思考题：如果表 T 中没有字段 k，执行语句 `select * from T where k=1` 时会报错：`Unknown column ‘k’ in ‘where clause'`。这个错误是在上面提到的哪个阶段报出来的？
+思考题：如果表 T 中没有字段 k，执行语句 `select * from T where k=1` 时会报错：`Unknown column 'k' in 'where clause'`。这个错误是在上面提到的哪个阶段报出来的？
 
 答案：分析器
 
