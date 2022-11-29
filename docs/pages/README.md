@@ -13,7 +13,7 @@
 * [03-事务隔离](/pages/Database/MySQL/03-事务隔离.md)
 * [04-深入浅出索引](/pages/Database/MySQL/04-深入浅出索引.md)
 * [05-MySQL中的锁](/pages/Database/MySQL/05-MySQL中的锁.md)
-* [06-MVCC](/pages/Database/MySQL/06-MVCC.md)
+* [06-进一步理解MVCC](/pages/Database/MySQL/06-进一步理解MVCC.md)
 
 ### Redis
 * [Redis入门](/pages/Database/Redis/Redis入门.md)
