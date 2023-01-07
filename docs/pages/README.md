@@ -16,7 +16,7 @@
 * [06-进一步理解MVCC](/pages/Database/MySQL/06-进一步理解MVCC.md)
 
 ### Redis
-* [Redis入门](/pages/Database/Redis/Redis入门.md)
+* [01-Redis入门及常用指令](/pages/Database/Redis/01-Redis入门及常用指令.md)
 
 ## 📙 框架
 ### MyBatis

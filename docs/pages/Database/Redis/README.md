@@ -1,4 +1,3 @@
 # 数据库
-
 ## Redis
-- [Redis入门](Redis入门.md)
+- [01-Redis入门及常用指令](01-Redis入门及常用指令.md)

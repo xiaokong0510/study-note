@@ -135,11 +135,11 @@ module.exports = {
       '/pages/Database/Redis/': [
         {
           title: 'Redis ',
-          path: 'Redis入门',
+          path: '/pages/Database/Redis/',
           collapsable: false, // 不折叠
           sidebarDepth: 0,
           children: [
-            'Redis入门',
+            '01-Redis入门及常用指令'
           ]
         }
       ],
